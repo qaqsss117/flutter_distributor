@@ -184,6 +184,12 @@ class MakeMsixConfigLoader extends DefaultMakeConfigLoader {
     final map = loadMakeConfigYaml(
       '$platform/packaging/$packageFormat/make_config.yaml',
     );
+    final localConfigPath = Platform.environment['SENTINEL_MSIX_CONFIG'] ??
+        'signing/windows/store_identity.yaml';
+    final localConfigFile = File(localConfigPath);
+    if (localConfigFile.existsSync()) {
+      map.addAll(loadMakeConfigYaml(localConfigFile.path));
+    }
     return MakeMsixConfig.fromJson(map).copyWith(baseMakeConfig);
   }
 }
