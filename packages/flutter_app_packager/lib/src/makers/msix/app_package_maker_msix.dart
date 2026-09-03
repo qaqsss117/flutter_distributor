@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_app_packager/src/api/app_package_maker.dart';
+import 'package:flutter_app_packager/src/makers/msix/desktop_shortcut_manifest.dart';
 import 'package:flutter_app_packager/src/makers/msix/make_msix_config.dart';
 import 'package:msix/msix.dart';
 import 'package:path/path.dart' as p;
@@ -42,6 +43,8 @@ class AppPackageMakerMsix extends AppPackageMaker {
     makeConfig.build_windows = 'false';
 
     Map<String, dynamic> makeConfigJson = makeConfig.toJson();
+    final desktopShortcutName =
+        makeConfigJson.remove('desktop_shortcut_name') as String?;
     List<String> arguments = [];
     for (String key in makeConfigJson.keys) {
       dynamic value = makeConfigJson[key];
@@ -56,7 +59,18 @@ class AppPackageMakerMsix extends AppPackageMaker {
         arguments.addAll(['--$newKey', value]);
       }
     }
-    await Msix(arguments).create();
+    final msix = Msix(arguments);
+    await msix.build();
+    if (desktopShortcutName != null && desktopShortcutName.isNotEmpty) {
+      final manifestFile = File(
+        p.join(appDirectory.path, 'AppxManifest.xml'),
+      );
+      await addDesktopShortcutToManifest(
+        manifestFile,
+        shortcutName: desktopShortcutName,
+      );
+    }
+    await msix.pack();
     return MakeResult(makeConfig);
   }
 }

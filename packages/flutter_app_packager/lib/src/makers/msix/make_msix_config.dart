@@ -18,6 +18,7 @@ class MakeMsixConfig extends MakeConfig {
     this.protocol_activation,
     this.add_execution_alias,
     this.enable_at_startup,
+    this.desktop_shortcut_name,
     this.store,
     this.debug,
     this.output_path,
@@ -46,6 +47,7 @@ class MakeMsixConfig extends MakeConfig {
       protocol_activation: json['protocol_activation'],
       add_execution_alias: json['add_execution_alias'],
       enable_at_startup: json['enable_at_startup'],
+      desktop_shortcut_name: json['desktop_shortcut_name'],
       store: json['store'],
       debug: json['debug'],
       output_path: json['output_path'],
@@ -97,6 +99,9 @@ class MakeMsixConfig extends MakeConfig {
 
   /// App start at startup or user log-in.
   String? enable_at_startup;
+
+  /// Create a desktop shortcut with this name during MSIX installation.
+  String? desktop_shortcut_name;
 
   /// Generate a MSIX file for publishing to the Microsoft Store.                                                                                         |
   String? store;
@@ -151,6 +156,7 @@ class MakeMsixConfig extends MakeConfig {
       'protocol_activation': protocol_activation,
       'add_execution_alias': add_execution_alias,
       'enable_at_startup': enable_at_startup,
+      'desktop_shortcut_name': desktop_shortcut_name,
       'store': store,
       'debug': debug,
       'output_path': output_path,
