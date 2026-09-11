@@ -68,7 +68,9 @@ Future<void> addDesktopShortcutToManifest(
           XmlName('Shortcut', 'desktop7'),
           [
             XmlAttribute(XmlName('File'), shortcutPath),
-            XmlAttribute(XmlName('Icon'), executable),
+            // Expand the installed package path instead of generating an
+            // ms-resource reference, which Explorer shows as a blank icon.
+            XmlAttribute(XmlName('Icon'), '[{Package}]\\$executable'),
             XmlAttribute(XmlName('Description'), shortcutName),
           ],
         ),

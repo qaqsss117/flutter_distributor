@@ -100,7 +100,7 @@ install_certificate: "false"
       expect(extension.getAttribute('Executable'), 'SentinelVPN.exe');
       expect(shortcut.name.qualified, 'desktop7:Shortcut');
       expect(shortcut.getAttribute('File'), r'$(Desktop)\哨兵加速器.lnk');
-      expect(shortcut.getAttribute('Icon'), 'SentinelVPN.exe');
+      expect(shortcut.getAttribute('Icon'), r'[{Package}]\SentinelVPN.exe');
     } finally {
       testDirectory.deleteSync(recursive: true);
     }
